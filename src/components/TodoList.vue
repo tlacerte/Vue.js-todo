@@ -5,8 +5,17 @@
         placeholder="what needs to be done"
         v-model="newTodo"
         @keyup.enter="addTodo">
-        <div v-for="todo in todos" :key="todo.id" class="todo-item">
-            {{ todo.title }}
+        
+        <div v-for="(todo, index) in todos" 
+        :key="todo.id" 
+        class="todo-item">
+            <div class="todo-item-left">
+                <div class="todo-item-label">{{ todo.title }}</div>
+                <input class="todo-item-edit" type="text" v-model="todo.title">
+            </div>
+            <div class="remove-item" @click="removeTodo(index)">
+                &times;
+            </div>
         </div>
     </div>
 </template>
@@ -33,7 +42,7 @@ export default {
     }
   },
   methods: {
-      addTodo() {
+    addTodo() {
         if (this.newTodo.trim().length == 0) {
             return
         }
@@ -46,7 +55,10 @@ export default {
 
         this.newTodo = ''
         this.idForTodo++
-      }
+    },
+    removeTodo(index) {
+        this.todos.splice(index, 1)
+    }
   }
 }
 </script>
@@ -57,5 +69,25 @@ export default {
         padding: 10px 18px;
         font-size: 18px;
         margin-bottom: 16px;
+    }
+
+    .todo-input:focus {
+        outline: black;
+    }
+
+    .todo-item {
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .remove-item {
+        cursor: pointer;
+        margin-left: 14px;
+    }
+
+    .remove-item:hover {
+        color: black;
     }
 </style>
